@@ -1,6 +1,9 @@
 -- some games dont work idk why should work usually
 -- enjoy ur stupid obby script
-print("fiji made this guys FAHHH\n Some games dont work sorry!")
+print("fiji made this guys FAHHH")
+
+local TimeTillTp = 0.3 -- adjust this as needed, sometimes it takes longer for a checkpoint to register
+local path = workspace:FindFirstChild("Stages") -- adjust that name if needed
 
 ------------------------------- Dont touch beyond here.
 
@@ -9,8 +12,8 @@ local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local rootPart = character:WaitForChild("HumanoidRootPart")
 
-local folder = workspace:FindFirstChild("Checkpoints")
-if not folder then
+local path = path
+if not path then
     print("you dont have the correct folder where the checkpoints are stored inside of the game. look thru the explorer.")
     return
 end
@@ -18,8 +21,9 @@ end
 print("found the folder starting tping in 3 seconds")
 wait(3)
 
+print("starting now stinky cheater smh")
 for i = 1, 1000 do
-    local checkpoint = folder:FindFirstChild(tostring(i))
+    local checkpoint = path:FindFirstChild(tostring(i))
     if checkpoint then
         rootPart.Position = checkpoint.Position + Vector3.new(0, 3, 0)
         wait(TimeTillTp)
