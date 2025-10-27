@@ -1,16 +1,31 @@
 -- some games dont work idk why should work usually
 -- enjoy ur stupid obby script
 print("fiji made this guys FAHHH")
-------------------------------- Dont touch beyond here.
 
 local player = game.Players.LocalPlayer
 
 local character = player.Character or player.CharacterAdded:Wait()
 local rootPart = character:WaitForChild("HumanoidRootPart")
 
+-- if your too stupid this will find the stages for you lol
 local path = PathToCheckpoints
+
 if not path then
-    print("you dont have the correct folder where the checkpoints are stored inside of the game. look thru the explorer.")
+    local possibleFolderNames = {
+        "Stages", "Checkpoints", "Checkpoint", "Levels", "Level", "Stage"
+    }
+    
+    for _, folderName in pairs(possibleFolderNames) do
+        local testFolder = workspace:FindFirstChild(folderName)
+        if testFolder then
+            path = testFolder
+            break
+        end
+    end
+end
+
+if not path then
+    print("the script cannot find the folder")
     return
 end
 
