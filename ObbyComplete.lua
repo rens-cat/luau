@@ -7,6 +7,7 @@ local player = game.Players.LocalPlayer
 
 local character = player.Character or player.CharacterAdded:Wait()
 local rootPart = character:WaitForChild("HumanoidRootPart")
+
 local path = PathToCheckpoints
 if not path then
     print("you dont have the correct folder where the checkpoints are stored inside of the game. look thru the explorer.")
@@ -17,7 +18,7 @@ print("found the folder starting tping in 3 seconds")
 wait(3)
 
 for i = 1, 1000 do
-    local checkpoint = folder:FindFirstChild(tostring(i))
+    local checkpoint = path:FindFirstChild(tostring(i))
     if checkpoint then
         rootPart.Position = checkpoint.Position + Vector3.new(0, 3, 0)
         wait(TimeTillTp)
