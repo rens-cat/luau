@@ -2,9 +2,6 @@
 -- enjoy ur stupid obby script
 print("fiji made this guys FAHHH")
 
-local TimeTillTp = 0.3 -- adjust this as needed, sometimes it takes longer for a checkpoint to register
-local path = workspace:FindFirstChild("Stages") -- adjust that name if needed
-
 ------------------------------- Dont touch beyond here.
 
 local player = game.Players.LocalPlayer
