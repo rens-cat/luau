@@ -7,7 +7,7 @@ local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local rootPart = character:WaitForChild("HumanoidRootPart")
 
--- if your too stupid this will find the stages for you lol
+
 local path = PathToCheckpoints
 
 if not path then
@@ -36,7 +36,7 @@ for i = 1, 1000 do
     local checkpoint = path:FindFirstChild(tostring(i))
     if checkpoint then
         rootPart.Position = checkpoint.Position + Vector3.new(0, 3, 0)
-        wait(TimeTillTp)
+        wait(0.32)
     else
         break
     end
