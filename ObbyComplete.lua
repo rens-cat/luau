@@ -12,7 +12,7 @@ local path = PathToCheckpoints
 
 if not path then
     local possibleFolderNames = {
-        "Stages", "Checkpoints", "Checkpoint", "Levels", "Level", "Stage"
+        "Stages", "Checkpoints", "Checkpoint", "Levels", "Level", "Stage", "StageFolder", "CheckpointFolder", "CheckpointsFolder", "LevelsFolder", "LevelFolder"
     }
     
     for _, folderName in pairs(possibleFolderNames) do
