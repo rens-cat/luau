@@ -4,7 +4,7 @@ print("fiji made this guys FAHHH")
 
 local player = game.Players.LocalPlayer
 
-local character = player.Character or player.CharacterAdded:Wait()
+local character = player.Character
 local rootPart = character:WaitForChild("HumanoidRootPart")
 
 
