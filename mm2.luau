@@ -158,7 +158,7 @@ while true do
                         box.name.Color = Color3.fromRGB(255, 0, 0)
                     elseif Sheriff(plr) then 
                         box.main.Color = Color3.fromRGB(0, 0, 255)
-                        box.main.Color = Color3.fromRGB(0, 0, 255)
+                        box.name.Color = Color3.fromRGB(0, 0, 255)
 
                     else
                         box.main.Color = Color3.fromRGB(255, 255, 255)
