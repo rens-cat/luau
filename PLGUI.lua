@@ -1,78 +1,3 @@
---[[
-
-v1 x11 ui lib
-@nulare on discord
-
-UILib.new(<string> identity, <table> watermarkActivity) -> UILib
-
-UILib:Tab(<string> name) -> tabName
-UILib:Section(<tabName>, <string> name) -> sectionName
-UILib:CreateSettingsTab(<string> customName) -> tabName, sectionName, sectionName
-
-UILib:Checkbox(<tabName>, <sectionName>, <string> label, <boolean> defaultValue, <function> callback)
-UILib:Slider(<tabName>, <sectionName>, <string> label, <number> defaultValue, <function> callback, <number> min, <number> max, <number> step, <string> appendix)
-UILib:Choice(<tabName>, <sectionName>, <string> label, <table> defaultValue, <function | nil> callback, <table> choices, <boolean> multi)
-UILib:Colorpicker(<tabName>, <sectionName>, <string> label, <table[3]> defaultValue, <function | nil> callback)
-UILib:Keybind(<tabName>, <sectionName>, <string> label, <string(Keycode)> defaultValue, <function | nil> callback, <string: 'Hold', 'Toggle', 'Always'> mode)
-
-UILib:ToggleMenu(boolean)
-UILib:ToggleWatermark(boolean)
-UILib:Step()
-UILib:Destroy()
-
-Example usage:
-local function getPing(raw)
-    local pingAddress = game:FindFirstChild("Stats"):FindFirstChild("PerformanceStats"):FindFirstChild("Ping").Address
-    local ping = memory_read("double", pingAddress + 0xC8)
-
-    if raw then
-        return ping
-    end
-
-    return ("Ping: %sms"):format(math.floor(ping))
-end
-
-local UILib = require('workspace/x11-colorpicker.lua') -- import however you prefer!
-local myGui = UILib.new('chatgpthaxx', Vector2.new(320, 380), {getPing})
-
-local visualsTab = myGui:Tab('Visuals')
-local espSection = myGui:Section(visualsTab, 'General')
-myGui:Checkbox(visualsTab, espSection, 'Master', false, function(state)
-    printl('ESP:', state)
-end)
-myGui:Slider(visualsTab, espSection, 'Distance', 2500, function(value)
-    printl('ESP distance:', value)
-end, 100, 2500, 100, ' studs')
-
-local playerEspSection = myGui:Section(visualsTab, 'Players')
-myGui:Checkbox(visualsTab, playerEspSection, 'BBox', false, function(state)
-    printl('BBox:', state)
-end)
-myGui:Checkbox(visualsTab, playerEspSection, 'Name', false, function(state)
-    printl('Name:', state)
-end)
-myGui:Checkbox(visualsTab, playerEspSection, 'Distance', false, function(state)
-    printl('Distance:', state)
-end)
-myGui:Choice(visualsTab, playerEspSection, 'Flags', {}, function(values)
-    printl('Flags:', table.concat(values, ', '))
-end, {'Health', 'Humanoid state'}, true)
-myGui:Colorpicker(visualsTab, playerEspSection, 'Box color', {255, 0, 0}, nil)
-myGui:Keybind(visualsTab, playerEspSection, 'Toggle', 'm3', nil, 'Toggle')
-myGui:CreateSettingsTab()
-local running = true
-myGui:Checkbox(visualsTab, playerEspSection, 'Unload', false, function(state)
-    running = false
-end)
-while running do
-    myGui:Step()
-    wait(0.0015)
-end
-myGui:Destroy()
-
-]]
-
-
 
 UILib = {}
 UILib.__index = UILib
@@ -272,12 +197,12 @@ function UILib.new(name, size, watermarkActivity)
     self.h = size and size.y or 400
 
     -- theme
-    self._color_accent = Color3.fromRGB(255, 0, 255)
+    self._color_accent = Color3.fromRGB(255, 127, 0)
     self._color_text = Color3.fromRGB(255, 255, 255)
-    self._color_crust = Color3.fromRGB(10, 10, 10)
-    self._color_border = Color3.fromRGB(10, 10, 10)
-    self._color_surface = Color3.fromRGB(10, 10, 10)
-    self._color_overlay = Color3.fromRGB(10, 10, 10)
+    self._color_crust = Color3.fromRGB(0, 0, 0)
+    self._color_border = Color3.fromRGB(25, 25, 25)
+    self._color_surface = Color3.fromRGB(38, 38, 38)
+    self._color_overlay = Color3.fromRGB(76, 76, 76)
 
     -- styling
     self._title_h = 25
@@ -801,7 +726,7 @@ function UILib:CreateSettingsTab(customName)
     self:Checkbox(menuTab, menuSettings, 'Debug', false, nil)
 
     local menuTheme = self:Section(menuTab, 'Theming')
-    local presetThemes = {'Freemont', 'Nord', 'Dracula', 'Catppuccin'}
+    local presetThemes = {'X11', 'Nord', 'Dracula', 'Catppuccin'}
     self:Choice(menuTab, menuTheme, 'Preset theme', {presetThemes[1]}, function (values)
         local themingItems = self._tree._tabs[#self._tree._tabs]._sections[2]
         local colorAccent = themingItems._items[2]
@@ -812,10 +737,10 @@ function UILib:CreateSettingsTab(customName)
 
         local theme = values[1]
         if theme == presetThemes[1] then
-            colorAccent.value = {255, 0, 255}
-            colorBase.value = {10, 10, 10}
-            colorInnerStroke.value = {10, 10, 10}
-            colorOuterStroke.value = {10, 10, 10}
+            colorAccent.value = {255, 128, 0}
+            colorBase.value = {38, 38, 38}
+            colorInnerStroke.value = {26, 26, 26}
+            colorOuterStroke.value = {77, 77, 77}
             colorCrust.value = {0, 0, 0}
         elseif theme == presetThemes[2] then
             colorAccent.value = {135, 206, 235}
@@ -843,19 +768,19 @@ function UILib:CreateSettingsTab(customName)
         colorOuterStroke.callback(Color3.fromRGB(unpack(colorOuterStroke.value)))
         colorCrust.callback(Color3.fromRGB(unpack(colorCrust.value)))
     end, presetThemes, false)
-    self:Colorpicker(menuTab, menuTheme, 'Accent', {255, 0, 255}, function (newColor)
+    self:Colorpicker(menuTab, menuTheme, 'Accent', {255, 128, 0}, function (newColor)
         self._color_accent = newColor
     end)
-    self:Colorpicker(menuTab, menuTheme, 'Base', {10, 10, 10}, function (newColor)
+    self:Colorpicker(menuTab, menuTheme, 'Base', {38, 38, 38}, function (newColor)
         self._color_surface = newColor
     end)
-    self:Colorpicker(menuTab, menuTheme, 'Inner stroke', {10, 10, 10}, function (newColor)
+    self:Colorpicker(menuTab, menuTheme, 'Inner stroke', {25, 25, 25}, function (newColor)
         self._color_border = newColor
     end)
-    self:Colorpicker(menuTab, menuTheme, 'Outer stroke', {10, 10, 10}, function (newColor)
+    self:Colorpicker(menuTab, menuTheme, 'Outer stroke', {76, 76, 76}, function (newColor)
         self._color_overlay = newColor
     end)
-    self:Colorpicker(menuTab, menuTheme, 'Crust', {10, 10, 10}, function (newColor)
+    self:Colorpicker(menuTab, menuTheme, 'Crust', {0, 0, 0}, function (newColor)
         self._color_crust = newColor
     end)
 
@@ -1769,32 +1694,6 @@ function UILib:Destroy()
     self._tree = nil
     setrobloxinput(true)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 -- lib is above
 
 
